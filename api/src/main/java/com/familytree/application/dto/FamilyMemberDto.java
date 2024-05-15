@@ -22,4 +22,6 @@ public class FamilyMemberDto {
 
     private Integer fid; //FatherId
 
+    private String img;
+
 }

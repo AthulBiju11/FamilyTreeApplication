@@ -19,7 +19,10 @@ import FamilyTree from "./familytree.js";
                     nodeBinding: {
                         field_0: 'name',
                         img_0: 'img'
-                    }
+                    },
+                    nodeMouseClick: 'none',
+                    mode: "dark",
+                    template: "john",
                 });
             }
 
