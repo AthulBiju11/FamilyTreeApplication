@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FamilyTree from "./familytree.js";  
+import { menuUI } from './familytree.js';
 
         export default class Chart extends Component {
 
@@ -20,9 +21,16 @@ import FamilyTree from "./familytree.js";
                         field_0: 'name',
                         img_0: 'img'
                     },
-                    nodeMouseClick: 'none',
+                    nodeMouseClick: FamilyTree.action.details,
+                    editForm: {readOnly: true},
                     mode: "dark",
-                    template: "john",
+                    template: "hugo",
+                    nodeMenu:{
+                        details: {text:"Details"},
+                        edit: {text:"Edit"},
+                    
+                    },
+                    
                 });
             }
 
