@@ -16,7 +16,10 @@ import { menuUI } from './familytree.js';
             componentDidMount() {
                 this.family = new FamilyTree (this.divRef.current , {
                     nodes: this.props.nodes,
-
+                    orientation: FamilyTree.orientation.left,
+                    roots: [1],
+                    // roots: [3],
+                    
                     nodeBinding: {
                         field_0: 'name',
                         img_0: 'img'
@@ -25,10 +28,10 @@ import { menuUI } from './familytree.js';
                     editForm: {readOnly: true},
                     mode: "dark",
                     template: "hugo",
+
                     nodeMenu:{
                         details: {text:"Details"},
-                        edit: {text:"Edit"},
-                    
+                        
                     },
                     
                 });
