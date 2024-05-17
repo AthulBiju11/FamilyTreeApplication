@@ -16,6 +16,7 @@ import { menuUI } from './familytree.js';
             componentDidMount() {
                 this.family = new FamilyTree (this.divRef.current , {
                     nodes: this.props.nodes,
+                    searchFields: ["name", "familyId"],
                     orientation: FamilyTree.orientation.left,
                     roots: [1],
                     // roots: [3],
