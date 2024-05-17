@@ -1,11 +1,15 @@
 .admin-page {
-    padding: 20px;
+    padding: 100px;
     font-family: Arial, sans-serif;
+    background-color: #fff;
   }
   
   .admin-page h1 {
     text-align: center;
     margin-bottom: 20px;
+    
+     
+    
   }
   
   .admin-form {
