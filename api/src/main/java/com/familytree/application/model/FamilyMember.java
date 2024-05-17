@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,13 +27,24 @@ public class FamilyMember {
 
     private String name;
 
+    private String nickName;
+
+    private String familyId;
+
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
     private String img;
 
+    private LocalDate birthDate;
 
+    private LocalDate deathDate;
 
+    private LocalDate anniversaryDate;
+
+    private String address;
+
+    private String mobileNo;
 
 
 }
