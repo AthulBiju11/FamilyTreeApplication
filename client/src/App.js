@@ -1,9 +1,9 @@
-import React, { Component, useEffect } from 'react';
-import FamilyTree from './mytree';
-import { useDispatch,useSelector } from 'react-redux';
-import { fetchFamilyMembers } from './redux/slice/family';
+import React from 'react';
 import LandingPage from './pages/LandingPage/LandingPage';
 import AdminPage from './pages/AdminPage/AdminPage';
+import { ToastContainer } from 'react-toastify';
+
+import "react-toastify/dist/ReactToastify.css";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
@@ -42,6 +42,7 @@ function App() {
   return (
     <div>
       <RouterProvider router={router} />
+      <ToastContainer/>
     </div>
   );
 }

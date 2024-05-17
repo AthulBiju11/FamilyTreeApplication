@@ -30,6 +30,13 @@ public class FamilyService {
         member.setMid(newMember.getMid());
         member.setGender(newMember.getGender());
         member.setImg(newMember.getImg());
+        member.setBirthDate(newMember.getBirthDate());
+        member.setNickName(newMember.getNickName());
+        member.setFamilyId(newMember.getFamilyId());
+        member.setDeathDate(newMember.getDeathDate());
+        member.setAddress(newMember.getAddress());
+        member.setMobileNo(newMember.getMobileNo());
+        member.setAnniversaryDate(newMember.getAnniversaryDate());
         if (newMember.getPid() == null){
             List<Integer> emptyList = new ArrayList<>();
             member.setPids(emptyList);

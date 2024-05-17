@@ -1,11 +1,11 @@
 package com.familytree.application.dto;
 
 import com.familytree.application.model.Gender;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -16,12 +16,28 @@ public class FamilyMemberDto {
 
     private Gender gender;
 
-    private Integer pid; //PartnerId
+    private Integer pid;
 
-    private Integer mid; //MotherId
+    private Integer mid;
 
-    private Integer fid; //FatherId
+    private Integer fid;
+
+    private String nickName;
+
+    private String familyId;
 
     private String img;
+
+    private LocalDate birthDate;
+
+    private LocalDate deathDate;
+
+    private LocalDate anniversaryDate;
+
+    private String address;
+
+    private String mobileNo;
+
+
 
 }
