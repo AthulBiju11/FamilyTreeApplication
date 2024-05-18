@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AdminPage.css";
 import newRequest from "../../utils/newRequest";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Dropzone from "react-dropzone";
 import { produce } from "immer";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 
 const AdminPage = () => {
   const [formData, setFormData] = useState({
@@ -17,13 +19,15 @@ const AdminPage = () => {
     birthDate: null,
     nickName: null,
     familyId: null,
-    deathDate: null, // Added deathDate
-    anniversaryDate: null, // Added anniversaryDate
-    address: null, // Added address
-    mobileNo: null, // Added mobileNo
+    deathDate: null,
+    anniversaryDate: null,
+    address: null,
+    mobileNo: null,
   });
 
   const [familyMembers, setFamilyMembers] = useState([]);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const fetchFamilyMembers = async () => {
@@ -77,7 +81,6 @@ const AdminPage = () => {
       );
       console.log("FormData", formData);
 
-      // Show success toast notification
       toast.success("Image uploaded successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -90,7 +93,6 @@ const AdminPage = () => {
       });
     } catch (error) {
       console.log(error);
-      // Show error toast notification
       toast.error("Failed to upload image", {
         position: "top-right",
         autoClose: 5000,
@@ -111,7 +113,6 @@ const AdminPage = () => {
       const response = await newRequest.post("/family/add", formData);
       console.log(response.data);
 
-      // Show success toast notification
       toast.success("New user created successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -123,7 +124,6 @@ const AdminPage = () => {
         theme: "colored",
       });
 
-      // Reset the form data
       setFormData({
         name: null,
         gender: null,
@@ -134,9 +134,12 @@ const AdminPage = () => {
         birthDate: null,
         nickName: null,
         familyId: null,
+        deathDate: null,
+        anniversaryDate: null,
+        address: null,
+        mobileNo: null,
       });
 
-      // Fetch the updated family members
       const fetchFamilyMembers = async () => {
         try {
           const response = await newRequest.get("/family/all");
@@ -149,7 +152,6 @@ const AdminPage = () => {
       fetchFamilyMembers();
     } catch (error) {
       console.log(error);
-      // Show error toast notification
       toast.error("Failed to create new user", {
         position: "top-right",
         autoClose: 5000,
@@ -163,8 +165,21 @@ const AdminPage = () => {
     }
   };
 
+  const handleShowTree = () => {
+    navigate("/");
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <div className="admin-page">
+      <div className="top-right-buttons">
+        <button onClick={handleShowTree}>Show Tree</button>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
       <h1>Admin Page</h1>
       <form onSubmit={handleSubmit} className="admin-form">
         <div className="form-group">
@@ -173,7 +188,7 @@ const AdminPage = () => {
             type="text"
             id="name"
             name="name"
-            value={formData.name}
+            value={formData.name || ""}
             onChange={handleChange}
             required
           />
@@ -183,7 +198,7 @@ const AdminPage = () => {
           <select
             id="gender"
             name="gender"
-            value={formData.gender}
+            value={formData.gender || ""}
             onChange={handleChange}
             required
           >
@@ -198,7 +213,7 @@ const AdminPage = () => {
             type="number"
             id="pid"
             name="pid"
-            value={formData.pid}
+            value={formData.pid || ""}
             onChange={handleChange}
           />
         </div>
@@ -208,7 +223,7 @@ const AdminPage = () => {
             type="number"
             id="mid"
             name="mid"
-            value={formData.mid}
+            value={formData.mid || ""}
             onChange={handleChange}
           />
         </div>
@@ -218,7 +233,7 @@ const AdminPage = () => {
             type="number"
             id="fid"
             name="fid"
-            value={formData.fid}
+            value={formData.fid || ""}
             onChange={handleChange}
           />
         </div>
@@ -228,7 +243,7 @@ const AdminPage = () => {
             type="date"
             id="birthDate"
             name="birthDate"
-            value={formData.birthDate}
+            value={formData.birthDate || ""}
             onChange={handleChange}
             required
           />
@@ -239,7 +254,7 @@ const AdminPage = () => {
             type="text"
             id="nickName"
             name="nickName"
-            value={formData.nickName}
+            value={formData.nickName || ""}
             onChange={handleChange}
           />
         </div>
@@ -249,55 +264,50 @@ const AdminPage = () => {
             type="text"
             id="familyId"
             name="familyId"
-            value={formData.familyId}
+            value={formData.familyId || ""}
             onChange={handleChange}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="deathDate">Death Date:</label>
           <input
             type="date"
             id="deathDate"
             name="deathDate"
-            value={formData.deathDate}
+            value={formData.deathDate || ""}
             onChange={handleChange}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="anniversaryDate">Anniversary Date:</label>
           <input
             type="date"
             id="anniversaryDate"
             name="anniversaryDate"
-            value={formData.anniversaryDate}
+            value={formData.anniversaryDate || ""}
             onChange={handleChange}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="address">Address:</label>
           <input
             type="text"
             id="address"
             name="address"
-            value={formData.address}
+            value={formData.address || ""}
             onChange={handleChange}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="mobileNo">Mobile Number:</label>
           <input
             type="tel"
             id="mobileNo"
             name="mobileNo"
-            value={formData.mobileNo}
+            value={formData.mobileNo || ""}
             onChange={handleChange}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="img">Image:</label>
           <Dropzone onDrop={handleImageUpload}>
@@ -313,7 +323,6 @@ const AdminPage = () => {
             )}
           </Dropzone>
         </div>
-
         <button type="submit">Submit</button>
       </form>
       <div>
