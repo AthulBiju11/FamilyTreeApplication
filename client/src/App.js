@@ -3,9 +3,11 @@ import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-rou
 import LandingPage from './pages/LandingPage/LandingPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import UpdateFamilyMember from './pages/UpdatePage/UpdateFamilyMember';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider, useAuth } from './context/AuthContext';
+import "./App.css"
 
 function App() {
   const Layout = () => {
@@ -37,6 +39,11 @@ function App() {
         {
           path: "/login",
           element: <LoginPage />,
+        },
+        // Add a new route for UpdateFamilyMember
+        {
+          path: "/update-family-member",
+          element: <ProtectedRoute element={<UpdateFamilyMember />} />, // Decide if it should be protected or not
         },
       ],
     },

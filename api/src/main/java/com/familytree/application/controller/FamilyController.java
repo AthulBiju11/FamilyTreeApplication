@@ -7,10 +7,7 @@ import com.familytree.application.service.FamilyService;
 import org.hibernate.type.descriptor.jdbc.JdbcTypeFamilyInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,14 @@ public class FamilyController {
         return service.addNewMember(newMember);
     }
 
+    @PostMapping("/family/update/{id}")
+    public ResponseEntity<FamilyMember> updateFamilyMember (@PathVariable Integer id, @RequestBody FamilyMemberDto newMember) {
+        return service.updateFamilyMember(id,newMember);
+    }
 
+    @DeleteMapping("/family/delete/{id}")
+    public ResponseEntity<String> deleteFamilyMember (@PathVariable Integer id) {
+        return service.deleteFamilyMember(id);
+    }
 
 }

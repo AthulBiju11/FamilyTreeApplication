@@ -24,17 +24,33 @@ const LandingPage = () => {
     }
   };
 
+  const { data, isLoading, error } = state.todo;
+
   return (
-    <div style={{ height: "0%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <div
+      style={{
+        height: "0%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <div>
-        {state.todo.data ? (
-          <FamilyTree nodes={state.todo.data} />
-        ) : (
+        {isLoading ? (
           <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : data && data.length > 0 ? (
+          <FamilyTree nodes={data} />
+        ) : (
+          <div>No data available</div>
         )}
       </div>
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <button onClick={handleButtonClick} style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}>
+        <button
+          onClick={handleButtonClick}
+          style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
+        >
           {isAuthenticated ? "Admin Panel" : "Login"}
         </button>
       </div>
