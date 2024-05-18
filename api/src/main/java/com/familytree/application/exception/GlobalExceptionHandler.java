@@ -14,5 +14,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok("Partner was not found, Make sure to create the correct partner next time");
     }
 
+    @ExceptionHandler(FamilyMemberNotFoundException.class)
+    public ResponseEntity<String> familyMemberNotFoundExceptionHandler(PartnerNotFoundException ex){
+        return ResponseEntity.ok("Family Member with the corresponding id not found");
+    }
+
 
 }

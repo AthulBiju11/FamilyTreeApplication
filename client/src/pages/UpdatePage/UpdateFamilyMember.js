@@ -1,70 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./AdminPage.css";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import newRequest from "../../utils/newRequest";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Dropzone from "react-dropzone";
 import { produce } from "immer";
 import { toast } from "react-toastify";
-import { useAuth } from "../../context/AuthContext";
+import "./UpdateFamilyMember.css"
 
-const AdminPage = () => {
+const UpdateFamilyMember = () => {
+  const location = useLocation();
+  const { member } = location.state;
+
   const [formData, setFormData] = useState({
-    name: null,
-    gender: null,
-    pid: null,
-    mid: null,
-    fid: null,
-    img: null,
-    birthDate: null,
-    nickName: null,
-    familyId: null,
-    deathDate: null,
-    anniversaryDate: null,
-    address: null,
-    mobileNo: null,
+    name: member.name,
+    gender: member.gender,
+    pid: member.pids[0],
+    mid: member.mid,
+    fid: member.fid,
+    img: member.img,
+    birthDate: member.birthDate,
+    nickName: member.nickName,
+    familyId: member.familyId,
+    deathDate: member.deathDate,
+    anniversaryDate: member.anniversaryDate,
+    address: member.address,
+    mobileNo: member.mobileNo,
   });
 
-  
-
-  const [editingMemberId, setEditingMemberId] = useState(null);
-  const [editingMember, setEditingMember] = useState({});
-
-  const handleEditMember = (member) => {
-    navigate("/update-family-member", { state: { member } });
-  };
-
-  const handleSaveEdit = async () => {
-    try {
-      await newRequest.put(`/family/update/${editingMember.id}`, editingMember);
-      setEditingMemberId(null);
-      setEditingMember({});
-      // Fetch the updated family members list
-      const response = await newRequest.get("/family/all");
-      setFamilyMembers(response.data);
-    } catch (error) {
-      console.error("Error updating family member:", error);
-    }
-  };
-
-  const [familyMembers, setFamilyMembers] = useState([]);
   const navigate = useNavigate();
-  const { logout } = useAuth();
-
-  const fetchFamilyMembers = async () => {
-    try {
-      const response = await newRequest.get("/family/all");
-      setFamilyMembers(response.data);
-    } catch (error) {
-      console.error("Error fetching family members:", error);
-    }
-  };
-
-  useEffect(() => {
-    
-
-    fetchFamilyMembers();
-  }, []);
 
   const cld = new Cloudinary({
     cloud: {
@@ -134,10 +97,11 @@ const AdminPage = () => {
     e.preventDefault();
 
     try {
-      const response = await newRequest.post("/family/add", formData);
+        console.log(member);
+      const response = await newRequest.post(`/family/update/${member.id}`, formData);
       console.log(response.data);
 
-      toast.success("New user created successfully!", {
+      toast.success("User updated successfully!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -148,77 +112,10 @@ const AdminPage = () => {
         theme: "colored",
       });
 
-      setFormData({
-        name: null,
-        gender: null,
-        pid: null,
-        mid: null,
-        fid: null,
-        img: null,
-        birthDate: null,
-        nickName: null,
-        familyId: null,
-        deathDate: null,
-        anniversaryDate: null,
-        address: null,
-        mobileNo: null,
-      });
-
-      const fetchFamilyMembers = async () => {
-        try {
-          const response = await newRequest.get("/family/all");
-          setFamilyMembers(response.data);
-        } catch (error) {
-          console.error("Error fetching family members:", error);
-        }
-      };
-
-      fetchFamilyMembers();
+      navigate("/admin");
     } catch (error) {
       console.log(error);
-      toast.error("Failed to create new user", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
-
-  const handleShowTree = () => {
-    navigate("/");
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
-  const handleDeleteMember = async (memberId) => {
-    try {
-      const response = await newRequest.delete(`/family/delete/${memberId}`);
-      console.log(response.data);
-
-      toast.success("Member deleted successfully!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-
-      // Refetch family members after deletion
-      fetchFamilyMembers();
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete member", {
+      toast.error("Failed to update user", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -232,13 +129,10 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="admin-page">
-      <div className="top-right-buttons">
-        <button onClick={handleShowTree}>Show Tree</button>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-      <h1>Admin Page</h1>
-      <form onSubmit={handleSubmit} className="admin-form">
+    <div className="update-family-member">
+    {console.log(member)}
+      <h1>Update Family Member</h1>
+      <form onSubmit={handleSubmit} className="update-form">
         <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input
@@ -358,7 +252,7 @@ const AdminPage = () => {
         <div className="form-group">
           <label htmlFor="mobileNo">Mobile Number:</label>
           <input
-            type="tel"
+            type="text"
             id="mobileNo"
             name="mobileNo"
             value={formData.mobileNo || ""}
@@ -367,77 +261,23 @@ const AdminPage = () => {
         </div>
         <div className="form-group">
           <label htmlFor="img">Image:</label>
-          <Dropzone onDrop={handleImageUpload}>
+          <Dropzone onDrop={handleImageUpload} accept="image/*">
             {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()}>
+              <div {...getRootProps()} className="dropzone">
                 <input {...getInputProps()} />
                 {formData.img ? (
-                  <img src={formData.img} alt="Uploaded" width="200" />
+                  <img src={formData.img} alt="Uploaded" />
                 ) : (
-                  <p>Drag and drop an image here, or click to select a file</p>
+                  <p>Drag 'n' drop an image here, or click to select one</p>
                 )}
               </div>
             )}
           </Dropzone>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
       </form>
-      <div>
-        <h2>Family Members</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Nickname</th>
-              <th>Family ID</th>
-              <th>Gender</th>
-              <th>Mother ID</th>
-              <th>Father ID</th>
-              <th>Partner IDs</th>
-              <th>Birth Date</th>
-              <th>Death Date</th>
-              <th>Anniversary Date</th>
-              <th>Address</th>
-              <th>Mobile Number</th>
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {familyMembers.map((member) => (
-              <tr key={member.id}>
-                <td>{member.id}</td>
-                <td>{member.name}</td>
-                <td>{member.nickName}</td>
-                <td>{member.familyId}</td>
-                <td>{member.gender}</td>
-                <td>{member.mid}</td>
-                <td>{member.fid}</td>
-                <td>{member.pids.join(", ")}</td>
-                <td>{member.birthDate}</td>
-                <td>{member.deathDate}</td>
-                <td>{member.anniversaryDate}</td>
-                <td>{member.address}</td>
-                <td>{member.mobileNo}</td>
-                <td>
-                  {member.img && (
-                    <img src={member.img} alt="Member" width="50" height="50" />
-                  )}
-                </td>
-                <td>
-                  <button onClick={() => handleEditMember(member)}>Edit</button>
-                  <button onClick={() => handleDeleteMember(member.id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 };
 
-export default AdminPage;
+export default UpdateFamilyMember;
