@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import newRequest from "../../utils/newRequest";
-import { Cloudinary } from "@cloudinary/url-gen";
+// import { Cloudinary } from "@cloudinary/url-gen";
 import Dropzone from "react-dropzone";
 import { produce } from "immer";
 import { toast } from "react-toastify";
@@ -29,13 +29,13 @@ const UpdateFamilyMember = () => {
 
   const navigate = useNavigate();
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "dxi46aisk",
-      api_key: "849818193456615",
-      api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
-    },
-  });
+  // const cld = new Cloudinary({
+  //   cloud: {
+  //     cloudName: "dxi46aisk",
+  //     api_key: "849818193456615",
+  //     api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
+  //   },
+  // });
 
   const handleChange = (e) => {
     const { name, value } = e.target;

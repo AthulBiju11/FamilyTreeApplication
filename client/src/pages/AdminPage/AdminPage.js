@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminPage.css";
 import newRequest from "../../utils/newRequest";
-import { Cloudinary } from "@cloudinary/url-gen";
+// import { Cloudinary } from "@cloudinary/url-gen";
 import Dropzone from "react-dropzone";
 import { produce } from "immer";
 import { toast } from "react-toastify";
@@ -27,25 +27,25 @@ const AdminPage = () => {
 
   
 
-  const [editingMemberId, setEditingMemberId] = useState(null);
-  const [editingMember, setEditingMember] = useState({});
+  // const [setEditingMemberId] = useState(null);
+  // const [editingMember, setEditingMember] = useState({});
 
   const handleEditMember = (member) => {
     navigate("/update-family-member", { state: { member } });
   };
 
-  const handleSaveEdit = async () => {
-    try {
-      await newRequest.put(`/family/update/${editingMember.id}`, editingMember);
-      setEditingMemberId(null);
-      setEditingMember({});
-      // Fetch the updated family members list
-      const response = await newRequest.get("/family/all");
-      setFamilyMembers(response.data);
-    } catch (error) {
-      console.error("Error updating family member:", error);
-    }
-  };
+  // const handleSaveEdit = async () => {
+  //   try {
+  //     await newRequest.put(`/family/update/${editingMember.id}`, editingMember);
+  //     setEditingMemberId(null);
+  //     setEditingMember({});
+  //     // Fetch the updated family members list
+  //     const response = await newRequest.get("/family/all");
+  //     setFamilyMembers(response.data);
+  //   } catch (error) {
+  //     console.error("Error updating family member:", error);
+  //   }
+  // };
 
   const [familyMembers, setFamilyMembers] = useState([]);
   const navigate = useNavigate();
@@ -66,13 +66,13 @@ const AdminPage = () => {
     fetchFamilyMembers();
   }, []);
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "dxi46aisk",
-      api_key: "849818193456615",
-      api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
-    },
-  });
+  // const cld = new Cloudinary({
+  //   cloud: {
+  //     cloudName: "dxi46aisk",
+  //     api_key: "849818193456615",
+  //     api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
+  //   },
+  // });
 
   const handleChange = (e) => {
     const { name, value } = e.target;

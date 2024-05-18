@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FamilyTree from "./familytree.js";  
-import { menuUI } from './familytree.js';
+
 
         export default class Chart extends Component {
 
