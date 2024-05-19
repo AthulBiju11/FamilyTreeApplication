@@ -18,7 +18,7 @@ import FamilyTree from "./familytree.js";
                     nodes: this.props.nodes,
                     searchFields: ["name", "familyId"],
                     orientation: FamilyTree.orientation.left,
-                    roots: [1],
+                    
                     // roots: [3],
                     
                     nodeBinding: {
