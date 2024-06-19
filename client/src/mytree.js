@@ -101,14 +101,41 @@ export default class Chart extends Component {
                 img_0: 'img'
             },
             nodeMouseClick: FamilyTree.action.details,
-            editForm: { readOnly: true },
+            editForm: { readOnly: true ,
+                    
+
+   
+ 
+    
+            generateElementsFromFields: false,
+            elements: [
+            { type: 'textbox', label: 'Full Name', binding: 'name' },
+            { type: 'textbox', label: 'Nick Name', binding: 'nickName' },
+            { type: 'textbox', label: 'Family ID', binding: 'familyId' },
+            { type: 'textbox', label: 'Birth Date', binding: 'birthDate' }, 
+            { type: 'textbox', label: 'Death Date', binding: 'deathDate' }, 
+            { type: 'textbox', label: 'Anniversary Date', binding: 'anniversaryDate' },
+            { type: 'textbox', label: 'Address', binding: 'address' },
+            { type: 'textbox', label: 'Mobile No', binding: 'mobileNo' },
+                  
+        ]
+            },
+
+
             mode: "dark",
             template: "sriniz",
             scaleInitial: FamilyTree.match.boundary,
             scaleMax: 1.5,
-            // nodeMenu: {
-            //     details: { text: "Details" },
+            
+            // filterBy: {
+            //     address: {
+            //         Moscow: { checked: false, text: 'Moscow is hidden' },
+            //         London: { checked: true, text: 'London is not hidden' }
+            //     }
             // },
+ 
+                
+ 
         });
     }
 
