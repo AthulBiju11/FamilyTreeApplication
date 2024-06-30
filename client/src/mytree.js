@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import FamilyTree from "./familytree.js";  
 
 FamilyTree.templates.sriniz = Object.assign({}, FamilyTree.templates.base);
+FamilyTree.templates.custom = Object.assign({}, FamilyTree.templates.base);
+FamilyTree.templates.custom.link = {
+    strokeWidth: 3, // Set the thickness of the connecting lines
+    color: "#039BE5"
+};
+
 
 FamilyTree.templates.sriniz.size = [225, 90];
 FamilyTree.templates.sriniz.node =

@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import UpdateFamilyMember from './pages/UpdatePage/UpdateFamilyMember';
+import HomePage from './pages/HomePage/homepage'
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -39,6 +40,10 @@ function App() {
         {
           path: "/login",
           element: <LoginPage />,
+        },
+        {
+          path: "/homepage",
+          element: <HomePage/>,
         },
         // Add a new route for UpdateFamilyMember
         {

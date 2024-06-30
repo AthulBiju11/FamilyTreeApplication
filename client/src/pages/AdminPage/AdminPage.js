@@ -55,11 +55,12 @@ const AdminPage = () => {
     try {
       const response = await newRequest.get("/family/all");
       setFamilyMembers(response.data);
+      console.log(response);
     } catch (error) {
       console.error("Error fetching family members:", error);
     }
   };
-
+    
   useEffect(() => {
     
 
