@@ -2,30 +2,24 @@ import React, { Component } from 'react';
 import FamilyTree from "./familytree.js";  
 
 FamilyTree.templates.sriniz = Object.assign({}, FamilyTree.templates.base);
-FamilyTree.templates.custom = Object.assign({}, FamilyTree.templates.base);
-FamilyTree.templates.custom.link = {
-    strokeWidth: 3, // Set the thickness of the connecting lines
-    color: "#039BE5"
-};
-
 
 FamilyTree.templates.sriniz.size = [225, 90];
 FamilyTree.templates.sriniz.node =
     '<rect x="0" y="0" height="90" width="225" stroke-width="1" rx="15" ry="15"></rect>';
 
-    FamilyTree.templates.sriniz.defs = `<g transform="matrix(0.05,0,0,0.05,-13 ,-12)" id="heart">
-        <path d="M448,256c0-106-86-192-192-192S64,150,64,256s86,192,192,192S448,362,448,256Z" style="fill:#fff;stroke:red;stroke-miterlimit:10;stroke-width:24px" fill="red"></path><path d="M256,360a16,16,0,0,1-9-2.78c-39.3-26.68-56.32-45-65.7-56.41-20-24.37-29.58-49.4-29.3-76.5.31-31.06,25.22-56.33,55.53-56.33,20.4,0,35,10.63,44.1,20.41a6,6,0,0,0,8.72,0c9.11-9.78,23.7-20.41,44.1-20.41,30.31,0,55.22,25.27,55.53,56.33.28,27.1-9.31,52.13-29.3,76.5-9.38,11.44-26.4,29.73-65.7,56.41A16,16,0,0,1,256,360Z" fill="red"></path>
-      </g>
-      <g id="sriniz_male_up">
-        <circle cx="15" cy="15" r="10" fill="#fff" stroke="#fff" stroke-width="1"></circle>
-        ${FamilyTree.icon.ft(15, 15, '#039BE5', 7.5, 7.5)}
-      </g>
-    
-      <g id="sriniz_female_up">
-        <circle cx="15" cy="15" r="10" fill="#fff" stroke="#fff" stroke-width="1"></circle>
-        ${FamilyTree.icon.ft(15, 15, '#FF46A3', 7.5, 7.5)}
-      </g>`;
-    
+FamilyTree.templates.sriniz.defs = `<g transform="matrix(0.05,0,0,0.05,-13 ,-12)" id="heart">
+    <path d="M448,256c0-106-86-192-192-192S64,150,64,256s86,192,192,192S448,362,448,256Z" style="fill:#fff;stroke:red;stroke-miterlimit:10;stroke-width:24px" fill="red"></path><path d="M256,360a16,16,0,0,1-9-2.78c-39.3-26.68-56.32-45-65.7-56.41-20-24.37-29.58-49.4-29.3-76.5.31-31.06,25.22-56.33,55.53-56.33,20.4,0,35,10.63,44.1,20.41a6,6,0,0,0,8.72,0c9.11-9.78,23.7-20.41,44.1-20.41,30.31,0,55.22,25.27,55.53,56.33.28,27.1-9.31,52.13-29.3,76.5-9.38,11.44-26.4,29.73-65.7,56.41A16,16,0,0,1,256,360Z" fill="red"></path>
+  </g>
+  <g id="sriniz_male_up">
+    <circle cx="15" cy="15" r="10" fill="#fff" stroke="#fff" stroke-width="1"></circle>
+    ${FamilyTree.icon.ft(15, 15, '#039BE5', 7.5, 7.5)}
+  </g>
+
+  <g id="sriniz_female_up">
+    <circle cx="15" cy="15" r="10" fill="#fff" stroke="#fff" stroke-width="1"></circle>
+    ${FamilyTree.icon.ft(15, 15, '#FF46A3', 7.5, 7.5)}
+  </g>`;
+
 
 // Male
 FamilyTree.templates.sriniz_male = Object.assign({}, FamilyTree.templates.sriniz);
@@ -33,7 +27,7 @@ FamilyTree.templates.sriniz_male.node =
     '<rect x="0" y="0" height="{h}" width="{w}" stroke-width="1" fill="#039BE5" stroke="#aeaeae" rx="15" ry="15"></rect>';
 
 FamilyTree.templates.sriniz_male.field_0 =
-'<text data-width="100" data-text-overflow="multiline" style="font-size: 16px; font-weight: bold;" fill="#fff" x="100" y="30" text-anchor="start">{val}</text>';
+    '<text data-width="100" data-text-overflow="multiline" style="font-size: 16px; font-weight: bold;" fill="#fff" x="100" y="30" text-anchor="start">{val}</text>';
 FamilyTree.templates.sriniz_male.field_1 =
     '<text data-text-overflow="ellipsis" style="font-size: 12px; font-weight: bold;" fill="#ffffff" x="100" y="50">{val}</text>';
 
@@ -43,7 +37,7 @@ FamilyTree.templates.sriniz_female.node =
     '<rect x="0" y="0" height="{h}" width="{w}" stroke-width="1" fill="#FF46A3" stroke="#aeaeae" rx="15" ry="15"></rect>';
 
 FamilyTree.templates.sriniz_female.field_0 =
-'<text data-width="100" data-text-overflow="multiline" style="font-size: 16px; font-weight: bold;" fill="#fff" x="100" y="30" text-anchor="start">{val}</text>';
+    '<text data-width="100" data-text-overflow="multiline" style="font-size: 16px; font-weight: bold;" fill="#fff" x="100" y="30" text-anchor="start">{val}</text>';
 FamilyTree.templates.sriniz_female.field_1 =
     '<text style="font-size: 12px; font-weight: bold;" fill="#ffffff" x="100" y="50">{val}</text>';
 
@@ -86,7 +80,6 @@ FamilyTree.templates.sriniz.pointer =
     '<circle fill="red" cx="120" cy="120" r="30" />' +
     '</g></g>';
 
-
 export default class Chart extends Component {
     constructor(props) {
         super(props);
@@ -107,41 +100,25 @@ export default class Chart extends Component {
                 img_0: 'img'
             },
             nodeMouseClick: FamilyTree.action.details,
-            editForm: { readOnly: true ,
-                    
-
-   
- 
-    
-            generateElementsFromFields: false,
-            elements: [
-            { type: 'textbox', label: 'Full Name', binding: 'name' },
-            { type: 'textbox', label: 'Nick Name', binding: 'nickName' },
-            { type: 'textbox', label: 'Family ID', binding: 'familyId' },
-            { type: 'textbox', label: 'Birth Date', binding: 'birthDate' }, 
-            { type: 'textbox', label: 'Death Date', binding: 'deathDate' }, 
-            { type: 'textbox', label: 'Anniversary Date', binding: 'anniversaryDate' },
-            { type: 'textbox', label: 'Address', binding: 'address' },
-            { type: 'textbox', label: 'Mobile No', binding: 'mobileNo' },
-                  
-        ]
+            editForm: {
+                readOnly: true,
+                generateElementsFromFields: false,
+                elements: [
+                    { type: 'textbox', label: 'Full Name', binding: 'name' },
+                    { type: 'textbox', label: 'Nick Name', binding: 'nickName' },
+                    { type: 'textbox', label: 'Family ID', binding: 'familyId' },
+                    { type: 'textbox', label: 'Birth Date', binding: 'birthDate' }, 
+                    { type: 'textbox', label: 'Death Date', binding: 'deathDate' }, 
+                    { type: 'textbox', label: 'Anniversary Date', binding: 'anniversaryDate' },
+                    { type: 'textbox', label: 'Address', binding: 'address' },
+                    { type: 'textbox', label: 'Email', binding: 'email' },
+                    { type: 'textbox', label: 'Mobile No', binding: 'mobileNo' },
+                ]
             },
-
-
             mode: "dark",
             template: "sriniz",
             scaleInitial: FamilyTree.match.boundary,
             scaleMax: 1.5,
-            
-            // filterBy: {
-            //     address: {
-            //         Moscow: { checked: false, text: 'Moscow is hidden' },
-            //         London: { checked: true, text: 'London is not hidden' }
-            //     }
-            // },
- 
-                
- 
         });
     }
 

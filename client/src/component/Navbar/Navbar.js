@@ -8,9 +8,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <ul>
-        <li><Link to="/homepage">Geneaology</Link></li>
-        <li><Link to="/page2">History</Link></li>
-        <li><Link to="/">Family Tree</Link></li>
+        <li><Link to="/">Geneaology</Link></li>
+        <li><Link to="/history">History</Link></li>
+        <li><Link to="/familytree">Family Tree</Link></li>
         <li><Link to="/page4">Member List</Link></li>
       </ul>
     </nav>
