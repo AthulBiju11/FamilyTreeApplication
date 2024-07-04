@@ -197,7 +197,7 @@ const AdminPage = () => {
   };
 
   const handleShowTree = () => {
-    navigate("/");
+    navigate("/familytree");
   };
 
   const handleLogout = () => {

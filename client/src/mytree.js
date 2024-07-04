@@ -113,6 +113,9 @@ export default class Chart extends Component {
                     { type: 'textbox', label: 'Address', binding: 'address' },
                     { type: 'textbox', label: 'Email', binding: 'email' },
                     { type: 'textbox', label: 'Mobile No', binding: 'mobileNo' },
+                    { type: 'textbox', label: 'Whatsapp No', binding: 'whatsappNumber' },
+                    { type: 'textbox', label: 'Profession', binding: 'profession' },
+                    { type: 'textbox', label: 'More Infos', binding: 'achievements' },
                 ]
             },
             mode: "dark",
