@@ -25,6 +25,9 @@ const UpdateFamilyMember = () => {
     anniversaryDate: member.anniversaryDate,
     address: member.address,
     mobileNo: member.mobileNo,
+    whatsappNumber: member.whatsappNumber,
+    profession: member.profession,
+    achievements: member.achievements,
   });
 
   const navigate = useNavigate();
@@ -256,6 +259,36 @@ const UpdateFamilyMember = () => {
             id="mobileNo"
             name="mobileNo"
             value={formData.mobileNo || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="whatsappNumber">Whatsapp Number:</label>
+          <input
+            type="text"
+            id="whatsappNumber"
+            name="whatsappNumber"
+            value={formData.whatsappNumber || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="profession">Profession:</label>
+          <input
+            type="text"
+            id="profession"
+            name="profession"
+            value={formData.profession || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="achievements">Achievements:</label>
+          <input
+            type="text"
+            id="achievements"
+            name="achievements"
+            value={formData.achievements || ""}
             onChange={handleChange}
           />
         </div>

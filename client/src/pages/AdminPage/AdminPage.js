@@ -23,6 +23,9 @@ const AdminPage = () => {
     anniversaryDate: null,
     address: null,
     mobileNo: null,
+    whatsappNumber: null,
+    achievements: null,
+    profession: null,
   });
 
   
@@ -163,6 +166,9 @@ const AdminPage = () => {
         anniversaryDate: null,
         address: null,
         mobileNo: null,
+        whatsappNumber: null,
+        achievements: null,
+        profession: null,
       });
 
       const fetchFamilyMembers = async () => {
@@ -367,6 +373,36 @@ const AdminPage = () => {
           />
         </div>
         <div className="form-group">
+    <label htmlFor="whatsappNumber">Whatsapp Number:</label>
+    <input
+      type="text"
+      id="whatsappNumber"
+      name="whatsappNumber"
+      value={formData.whatsappNumber || ""}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="form-group">
+    <label htmlFor="achievements">Achievements:</label>
+    <input
+      type="text"
+      id="achievements"
+      name="achievements"
+      value={formData.achievements || ""}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="form-group">
+    <label htmlFor="profession">Profession:</label>
+    <input
+      type="text"
+      id="profession"
+      name="profession"
+      value={formData.profession || ""}
+      onChange={handleChange}
+    />
+  </div>
+        <div className="form-group">
           <label htmlFor="img">Image:</label>
           <Dropzone onDrop={handleImageUpload}>
             {({ getRootProps, getInputProps }) => (
@@ -401,6 +437,9 @@ const AdminPage = () => {
               <th>Anniversary Date</th>
               <th>Address</th>
               <th>Mobile Number</th>
+              <th>Whatsapp Number</th>
+              <th>Achievements</th>
+              <th>Profession</th>
               <th>Image</th>
               <th>Actions</th>
             </tr>
@@ -421,6 +460,9 @@ const AdminPage = () => {
                 <td>{member.anniversaryDate}</td>
                 <td>{member.address}</td>
                 <td>{member.mobileNo}</td>
+                <td>{member.whatsappNumber}</td>
+                <td>{member.achievements}</td>
+                <td>{member.profession}</td>
                 <td>
                   {member.img && (
                     <img src={member.img} alt="Member" width="50" height="50" />
