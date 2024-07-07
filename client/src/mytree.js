@@ -79,6 +79,11 @@ FamilyTree.templates.sriniz.pointer =
     '<polygon fill="#FF46A3" points="120,240 173.004,186.996 66.996,186.996" />' +
     '<circle fill="red" cx="120" cy="120" r="30" />' +
     '</g></g>';
+//linewidth
+
+FamilyTree.templates.sriniz_male.link = '<path stroke-linejoin="round" stroke="#FFFFED" stroke-width="3px" fill="none" d="{rounded}" />'
+
+FamilyTree.templates.sriniz_female.link = '<path stroke-linejoin="round" stroke="#FFFFED" stroke-width="3px" fill="none" d="{rounded}" />'
 
 export default class Chart extends Component {
     constructor(props) {
@@ -93,6 +98,7 @@ export default class Chart extends Component {
     componentDidMount() {
         this.family = new FamilyTree(this.divRef.current, {
             nodes: this.props.nodes,
+            
             searchFields: ["name", "familyId"],
             orientation: FamilyTree.orientation.top,
             nodeBinding: {
@@ -102,6 +108,10 @@ export default class Chart extends Component {
             nodeMouseClick: FamilyTree.action.details,
             editForm: {
                 readOnly: true,
+                buttons:  {
+                    pdf: null,
+                    share: null
+                },
                 generateElementsFromFields: false,
                 elements: [
                     { type: 'textbox', label: 'Full Name', binding: 'name' },
