@@ -11,7 +11,7 @@ const Navbar = () => {
         <li><Link to="/">Geneaology</Link></li>
         <li><Link to="/history">History</Link></li>
         <li><Link to="/familytree">Family Tree</Link></li>
-        <li><Link to="/page4">Member List</Link></li>
+        <li><Link to="/MemberList">Member List</Link></li>
       </ul>
     </nav>
   );

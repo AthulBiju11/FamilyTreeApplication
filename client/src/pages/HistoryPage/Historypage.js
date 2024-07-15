@@ -1,10 +1,15 @@
 // FamilyHistoryPage.js
 import React from "react";
 import "./Historypage.css"; // Import the CSS file
+import Navbar from '../../component/Navbar/Navbar'; // Import Navbar component
 
 const FamilyHistoryPage = () => {
   return (
     <div className="container">
+      
+      <div className='navContent'>
+        <Navbar /> {/* Use Navbar component */}
+      </div>
       <h1 className="title">Purupumthanam 11s</h1>
       <div className="textArea">
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
