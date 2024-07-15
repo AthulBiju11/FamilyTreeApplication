@@ -6,7 +6,6 @@ import Navbar from '../../component/Navbar/Navbar'; // Import Navbar component
 const MemberList = () => {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  
 
   const fetchFamilyMembers = async () => {
     try {
@@ -22,11 +21,14 @@ const MemberList = () => {
   }, []);
 
   const filteredMembers = familyMembers.filter((member) =>
+    member.familyId && member.familyId !== "" &&
     member.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Sorting filteredMembers by familyId in alphabetical order
+  filteredMembers.sort((a, b) => a.familyId.localeCompare(b.familyId));
+
   return (
-    
     <div className="member-list">
       <div className='navContent'>
         <Navbar /> {/* Use Navbar component */}
@@ -38,52 +40,34 @@ const MemberList = () => {
           placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value.toUpperCase())}
-          
         />
       </div>
       <div>
-        
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
               <th>Nickname</th>
               <th>Family ID</th>
-              <th>Gender</th>
-              <th>Mother ID</th>
-              <th>Father ID</th>
-              <th>Partner IDs</th>
               <th>Birth Date</th>
               <th>Death Date</th>
-              <th>Anniversary Date</th>
               <th>Address</th>
               <th>Mobile Number</th>
               <th>Whatsapp Number</th>
-              <th>Achievements</th>
-              <th>Profession</th>
               <th>Image</th>
             </tr>
           </thead>
           <tbody>
             {filteredMembers.map((member) => (
               <tr key={member.id}>
-                <td>{member.id}</td>
                 <td>{member.name}</td>
                 <td>{member.nickName}</td>
                 <td>{member.familyId}</td>
-                <td>{member.gender}</td>
-                <td>{member.mid}</td>
-                <td>{member.fid}</td>
-                <td>{member.pids.join(", ")}</td>
                 <td>{member.birthDate}</td>
                 <td>{member.deathDate}</td>
-                <td>{member.anniversaryDate}</td>
                 <td>{member.address}</td>
                 <td>{member.mobileNo}</td>
                 <td>{member.whatsappNumber}</td>
-                <td>{member.achievements}</td>
-                <td>{member.profession}</td>
                 <td>
                   {member.img && (
                     <img src={member.img} alt="Member" width="50" height="50" />
