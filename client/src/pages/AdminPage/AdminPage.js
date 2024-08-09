@@ -204,6 +204,9 @@ const AdminPage = () => {
     logout();
     navigate("/");
   };
+  const handleHome = () => {
+    navigate("/");
+  };
 
   const handleDeleteMember = async (memberId) => {
     try {
@@ -243,6 +246,7 @@ const AdminPage = () => {
       <div className="top-right-buttons">
         <button onClick={handleShowTree}>Show Tree</button>
         <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleHome}>Home</button>
       </div>
       <h1>Admin Page</h1>
       <form onSubmit={handleSubmit} className="admin-form">
@@ -421,6 +425,7 @@ const AdminPage = () => {
       </form>
       <div>
         <h2>Family Members</h2>
+        <div className="table-wrapper">
         <table className="table">
           <thead>
             <tr>
@@ -478,6 +483,7 @@ const AdminPage = () => {
             ))}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );
