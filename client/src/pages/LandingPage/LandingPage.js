@@ -36,9 +36,10 @@ const LandingPage = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        position: "relative", // Add this to ensure z-index works
       }}
     >
-      <div>
+      <div style={{ flex: 1 }}>
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (
@@ -49,11 +50,20 @@ const LandingPage = () => {
           <div>No data available</div>
         )}
       </div>
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+      <div style={{ textAlign: "center", marginBottom: "20px", position: "relative" }}>
         <button
           type="button"
           onClick={handleButtonClick}
-          style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            cursor: "pointer",
+            position: "absolute", // Absolute positioning to control placement
+            bottom: "0px", // Adjust this based on your layout needs
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1000, // Ensure it's on top
+          }}
         >
           {isAuthenticated ? (userRole === "admin1" ? "Admin Panel" : "Homepage") : "Login"}
         </button>
