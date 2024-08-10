@@ -12,8 +12,11 @@ const LoginPage = () => {
   const handleLogin = () => {
     // Implement your authentication logic here
     if (username === 'seby' && password === 'sebymathew') {
-      login();
+      login('admin1');  // Set role as admin
       navigate('/admin');
+    } else if (username === 'jerin' && password === 'jerin') {
+      login('user');  // Set role as user
+      navigate('/homepage');
     } else {
       alert('Invalid credentials');
     }
@@ -36,7 +39,6 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleLogin}>Log In</button>
-        
       </div>
     </div>
   );

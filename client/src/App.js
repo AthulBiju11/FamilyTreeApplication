@@ -33,15 +33,15 @@ function App() {
       children: [
         {
           path: "/",
-          element: <HomePage />,
+          element: <LoginPage />,
         },
         {
           path: "/admin",
           element: <ProtectedRoute element={<AdminPage />} />,
         },
         {
-          path: "/login",
-          element: <LoginPage />,
+          path: "/homepage",
+          element: <HomePage />,
         },
         {
           path: "/familytree",

@@ -205,7 +205,7 @@ const AdminPage = () => {
     navigate("/");
   };
   const handleHome = () => {
-    navigate("/");
+    navigate("/homepage");
   };
 
   const handleDeleteMember = async (memberId) => {
