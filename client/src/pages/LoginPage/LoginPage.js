@@ -9,12 +9,18 @@ const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Fetch the environment variables
+  const adminUsername = process.env.REACT_APP_USERNAME_ADMIN;
+  const adminPassword = process.env.REACT_APP_PASSWORD_ADMIN;
+  const userUsername = process.env.REACT_APP_USERNAME_USER;
+  const userPassword = process.env.REACT_APP_PASSWORD_USER;
+
   const handleLogin = () => {
-    // Implement your authentication logic here
-    if (username === 'seby' && password === 'sebymathew') {
+    // Use the environment variables for authentication
+    if (username === adminUsername && password === adminPassword) {
       login('admin1');  // Set role as admin
       navigate('/admin');
-    } else if (username === 'jerin' && password === 'jerin') {
+    } else if (username === userUsername && password === userPassword) {
       login('user');  // Set role as user
       navigate('/homepage');
     } else {
