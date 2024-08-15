@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 var FamilyTree = function (e, t) {
   var i = this;
   if (
@@ -205,12 +206,14 @@ var FamilyTree = function (e, t) {
     nodes: [],
     clinks: [],
     slinks: [],
+    backdrops: [],
     groupDottedLines: [],
     dottedLines: [],
     undoRedoStorageName: null,
     levelSeparation: 60,
     siblingSeparation: 20,
     subtreeSeparation: 40,
+    backdropSeparation: 15,
     mixedHierarchyNodesSeparation: 15,
     assistantSeparation: 100,
     minPartnerSeparation: 50,
@@ -943,6 +946,17 @@ var FamilyTree = function (e, t) {
       t
     );
   }),
+  (FamilyTree.prototype.load = function (e, t) {
+    var i = this;
+    return (
+      (this.config.nodes = e),
+      (this.config.roots = null),
+      this._draw(!1, FamilyTree.action.init, void 0, function () {
+        i.filterUI.update(), t && t();
+      }),
+      this
+    );
+  }),
   (FamilyTree.prototype.getRecentRootsByNodeId = function (e) {
     this.recentRoots || (this.recentRoots = []);
     var t = this.recentRoots,
@@ -1187,8 +1201,7 @@ var FamilyTree = function (e, t) {
         "balkan_dotted_",
         ""
       )).indexOf("_balkan_id_");
-      if (((e = e.substring(i + "_balkan_id_".length)), (t = this.__get(e))))
-        return t;
+      if (((e = e.substring(i + 11)), (t = this.__get(e)))) return t;
     }
     return null;
   }),
@@ -1791,7 +1804,7 @@ var FamilyTree = function (e, t) {
     }
   }),
   void 0 === FamilyTree && (FamilyTree = {}),
-  (FamilyTree.VERSION = "8.14.33"),
+  (FamilyTree.VERSION = "8.14.46"),
   (FamilyTree.orientation = {}),
   (FamilyTree.orientation.top = 0),
   (FamilyTree.orientation.bottom = 1),
@@ -1968,9 +1981,14 @@ var FamilyTree = function (e, t) {
   (FamilyTree.VERTICAL_CHILDREN_ASSISTANT = !1),
   (FamilyTree.EXPORT_PAGES_CUT_NODES = !1),
   (FamilyTree.RESET_MOVABLE_ONEXPANDCOLLAPSE = !1),
+  (FamilyTree.FILTER_ALPHABETICALLY = !0),
+  (FamilyTree.SERVER_PREFIX = ".azurewebsites.net/api/OrgChartJS"),
+  (FamilyTree.FUNC_URL_NAME = "func-url-orgfamilyjs"),
   "undefined" != typeof module && (module.exports = FamilyTree),
+  (FamilyTree.SERVER_PREFIX = ".azurewebsites.net/api/FamilyTreeJS"),
+  (FamilyTree.FUNC_URL_NAME = "func-url-familytreejs"),
   (FamilyTree.OC_VERSION = FamilyTree.VERSION),
-  (FamilyTree.VERSION = "1.09.35"),
+  (FamilyTree.VERSION = "1.09.40"),
   (FamilyTree.RENDER_LINKS_BEFORE_NODES = !0),
   (FamilyTree.ARRAY_FIELDS = ["tags", "pids"]),
   (FamilyTree._intersects = function (e, t, i) {
@@ -2316,11 +2334,12 @@ var FamilyTree = function (e, t) {
       (I.setAttribute("data-bft-edit-form", ""),
       I.classList.add("bft-edit-form"),
       I.classList.add(this.obj.config.mode),
-      I.classList.add(f.templateName),
+      I.classList.add(f.templateName.replaceAll(" ", "")),
       I.classList.add(FamilyTree.ui._defsIds[f.templateName]),
       Array.isArray(f.tags) && f.tags.length)
     )
-      for (T = 0; T < f.tags.length; T++) I.classList.add(f.tags[T]);
+      for (T = 0; T < f.tags.length; T++)
+        I.classList.add(f.tags[T].replaceAll(" ", ""));
     (I.style.display = "flex"),
       (I.style.opacity = i ? 1 : 0),
       (I.style.right = i ? 0 : "-20px"),
@@ -4805,8 +4824,12 @@ var FamilyTree = function (e, t) {
   }),
   (FamilyTree.prototype._defaultExportProfileOptions = function (e, t) {
     return (
-      (FamilyTree.isNEU(e) || FamilyTree.isNEU(e.id)) &&
-        console.error("options.id is not defilned"),
+      FamilyTree.isNEU(e) ||
+        null == e.id ||
+        null != e.nodeId ||
+        (e.nodeId = e.id),
+      (FamilyTree.isNEU(e) || FamilyTree.isNEU(e.nodeId)) &&
+        console.error("options.nodeId is not defilned"),
       "svg" == t
         ? ((e.ext = "svg"), (e.mime = "image/svg+xml"))
         : "pdf" == t
@@ -4871,7 +4894,7 @@ var FamilyTree = function (e, t) {
           : a - (e.margin[0] + e.margin[2]),
       },
       o = { w: e.landscape ? a : r, h: e.landscape ? r : a },
-      l = this.editUI.content(e.id, !0, !0, "100%", !0).element;
+      l = this.editUI.content(e.nodeId, !0, !0, "100%", !0).element;
     FamilyTree.input.init(l);
     var s = {
       content: l.outerHTML,
@@ -6180,7 +6203,9 @@ var FamilyTree = function (e, t) {
                   r.updateNode(g, null, !0);
               } else {
                 var h = [];
-                l(s, h);
+                r.config.movable == FamilyTree.movable.node
+                  ? h.push(s.id)
+                  : l(s, h);
                 var f =
                     (c = FamilyTree._getTransform(r.getNodeElement(s.id)))[4] -
                     s.x,
@@ -6781,7 +6806,7 @@ var FamilyTree = function (e, t) {
         var t = this.instance.response.allFields[e];
         "tags" == t ||
           FamilyTree._fieldIsImg(this.instance.config, t) ||
-          this._searchFields.push(t);
+          (-1 == this._searchFields.indexOf(t) && this._searchFields.push(t));
       }
     } else this._searchFields = this.instance.config.searchFields;
     if (null == this.instance.config.searchFieldsAbbreviation) {
@@ -7085,19 +7110,31 @@ var FamilyTree = function (e, t) {
           for (
             var l = { minX: null, minY: null, maxX: null, maxY: null },
               s = {},
-              d = 0;
-            d < n.length;
-            d++
+              d = [],
+              c = 0;
+            c < n.length;
+            c++
           )
             FamilyTree.manager._setMinMaxXYAdjustifyIterate(
-              n[d],
-              n[d],
+              n[c],
+              n[c],
               l,
               0,
               s,
               o,
-              i.config.orientation
+              i.config.orientation,
+              d
             );
+          for (var m in d)
+            for (var h in d[m]) {
+              var p = s[m][h],
+                f = d[m][h];
+              null == p.minX &&
+                null == p.minY &&
+                null == p.maxX &&
+                null == p.maxY &&
+                FamilyTree._setMinMaxXY(f, p);
+            }
           e({
             minX: l.minX,
             minY: l.minY,
@@ -8383,37 +8420,43 @@ var FamilyTree = function (e, t) {
     r,
     a,
     n,
-    o
+    o,
+    l
   ) {
     (e.x += n.x), (e.y += n.y);
-    for (var l = 0; l < e.stChildren.length; l++)
+    for (var s = 0; s < e.stChildren.length; s++)
       FamilyTree.manager._setMinMaxXYAdjustifyIterate(
-        e.stChildren[l],
-        e.stChildren[l],
+        e.stChildren[s],
+        e.stChildren[s],
         i,
         0,
         a,
         n,
-        o
+        o,
+        l
       );
     e.isPartner ? (e.sl = r - 1) : (e.sl = r),
       null == a[t.id] && (a[t.id] = {}),
       null == a[t.id][e.sl] &&
         (a[t.id][e.sl] = { minX: null, minY: null, maxX: null, maxY: null }),
-      e.layout || FamilyTree._setMinMaxXY(e, a[t.id][e.sl]),
+      e.layout
+        ? (null == l[t.id] && (l[t.id] = {}),
+          null == l[t.id][e.sl] && (l[t.id][e.sl] = e))
+        : FamilyTree._setMinMaxXY(e, a[t.id][e.sl]),
       null != e.movex && (e.x += e.movex),
       null != e.movey && (e.y += e.movey),
       FamilyTree._setMinMaxXY(e, i),
       r++;
-    for (l = 0; l < e.children.length; l++)
+    for (s = 0; s < e.children.length; s++)
       FamilyTree.manager._setMinMaxXYAdjustifyIterate(
-        e.children[l],
+        e.children[s],
         t,
         i,
         r,
         a,
         n,
-        o
+        o,
+        l
       );
   }),
   (FamilyTree.manager._doNotChangePositionOfClickedNodeIfAny = function (
@@ -11815,7 +11858,9 @@ var FamilyTree = function (e, t) {
         }),
           (l.onmousemove = function (t) {
             if (s) {
-              t.preventDefault(), t.stopPropagation();
+              t.preventDefault(),
+                t.stopPropagation(),
+                (FamilyTree.miniMap._mouseMove = !0);
               var c = l.getBoundingClientRect(),
                 m = c.left,
                 h = c.top;
@@ -11838,7 +11883,43 @@ var FamilyTree = function (e, t) {
             s && (e.preventDefault(), e.stopPropagation(), (s = !1));
           }),
           (l.onmouseout = function (e) {
-            s && (e.preventDefault(), e.stopPropagation(), (s = !1));
+            s &&
+              (e.preventDefault(),
+              e.stopPropagation(),
+              (s = !1),
+              (FamilyTree.miniMap._mouseMove = !1));
+          }),
+          (l.onclick = function (t) {
+            if (
+              (t.preventDefault(),
+              t.stopPropagation(),
+              FamilyTree.miniMap._mouseMove)
+            )
+              FamilyTree.miniMap._mouseMove = !1;
+            else {
+              var r = l.getBoundingClientRect(),
+                a = r.left,
+                s = r.top;
+              (n = parseInt(t.clientX - a)), (o = parseInt(t.clientY - s));
+              var c = n / FamilyTree.miniMap._settings._scale,
+                m = o / FamilyTree.miniMap._settings._scale;
+              (i[0] =
+                c -
+                (i[0] + i[2] - i[0]) / 2 -
+                FamilyTree.miniMap._settings._translateX /
+                  FamilyTree.miniMap._settings._scale),
+                (i[1] =
+                  m -
+                  (i[1] + i[3] - i[1]) / 2 -
+                  FamilyTree.miniMap._settings._translateY /
+                    FamilyTree.miniMap._settings._scale),
+                e.setViewBox(i),
+                d && (clearTimeout(d), (d = null)),
+                (d = setTimeout(function () {
+                  e._draw(!0, FamilyTree.action.move);
+                }, 300)),
+                FamilyTree.miniMap._drawRectSelectorCanvas(e, i);
+            }
           });
       }
     } else {
@@ -11967,6 +12048,7 @@ var FamilyTree = function (e, t) {
       var d = 0,
         c = 0,
         m = function (e) {
+          FamilyTree.miniMap._mouseMove = !0;
           var t = e.clientX - d,
             i = e.clientY - c;
           if (!FamilyTree.isNEU(r.style.left)) {
@@ -12116,6 +12198,9 @@ var FamilyTree = function (e, t) {
     n.sort(function (e, t) {
       return e.start < t.start ? -1 : e.start > t.start ? 1 : 0;
     });
+    for (p = n.length - 1; p >= 0; p--)
+      for (m = 0; m < n.length; m++)
+        m < p && n[m].start + n[m].length > n[p].start && n.splice(p, 1);
     var T = t;
     for (p = n.length - 1; p >= 0; p--)
       T = (T = T.insert(n[p].start + n[p].length, "</mark>")).insert(
@@ -13268,8 +13353,24 @@ var FamilyTree = function (e, t) {
           if (this.filterBy[s])
             for (var d in e[s])
               this.filterBy[s][d] && (e[s][d] = this.filterBy[s][d]);
+      if (FamilyTree.FILTER_ALPHABETICALLY) {
+        var c = Object.keys(e).sort(),
+          m = e;
+        e = {};
+        for (i = 0; i < c.length; i++) {
+          e[(h = c[i])] = m[h];
+        }
+        for (var n in e) {
+          o = e[n];
+          e[n] = {};
+          for (c = Object.keys(o).sort(), i = 0; i < c.length; i++) {
+            var h = c[i];
+            e[n][h] = o[h];
+          }
+        }
+      }
       this.filterBy = e;
-      var c = this;
+      var p = this;
       (this.element = this.instance.element.querySelector("[data-filter]")),
         this.element && this.element.parentNode.removeChild(this.element),
         (this.element = document.createElement("div")),
@@ -13282,12 +13383,12 @@ var FamilyTree = function (e, t) {
             (this.element.style.transform = "translate(-50%)"))
           : ((this.element.style.top = this.instance.config.padding + "px"),
             (this.element.style.left = this.instance.config.padding + "px"));
-      var m = "";
+      var f = "";
       for (var s in this.filterBy) {
-        var h = { name: s, html: `<div data-filter-field="${s}">${s}</div>` };
-        FamilyTree.events.publish("add-filter", [c, h]), (m += h.html);
+        var u = { name: s, html: `<div data-filter-field="${s}">${s}</div>` };
+        FamilyTree.events.publish("add-filter", [p, u]), (f += u.html);
       }
-      (this.element.innerHTML = `<div>${m}</div>`),
+      (this.element.innerHTML = `<div>${f}</div>`),
         this.element.addEventListener("click", function (e) {
           if (
             e.target.hasAttribute("data-filter-close") ||
@@ -13295,25 +13396,25 @@ var FamilyTree = function (e, t) {
           ) {
             for (
               var t = e.target.getAttribute("data-filter-field"),
-                i = c.instance.element.querySelectorAll("[data-filter-menu]"),
+                i = p.instance.element.querySelectorAll("[data-filter-menu]"),
                 r = 0;
               r < i.length;
               r++
             )
               i[r].style.display = "none";
-            var a = c.instance.element.querySelectorAll(
+            var a = p.instance.element.querySelectorAll(
               ".filter-field-selected"
             );
             for (r = 0; r < a.length; r++)
               a[r].classList.remove("filter-field-selected");
-            var n = c.instance.element.querySelector("[data-filter-close]");
+            var n = p.instance.element.querySelector("[data-filter-close]");
             if (
               (n && n.parentNode.removeChild(n),
               e.target.hasAttribute("data-filter-close"))
             )
               return;
             if (!e.target.hasAttribute("data-filter-field")) return;
-            var o = c.instance.element.querySelector(
+            var o = p.instance.element.querySelector(
               `[data-filter-menu="${t}"]`
             );
             if (!o) {
@@ -13324,27 +13425,27 @@ var FamilyTree = function (e, t) {
                 checked: !0,
                 html: `<div>\n                        <input data-all type="checkbox" id="${t}" name="${t}" checked>\n                        <label for="${t}">[All]</label>\n                    </div>`,
               };
-              FamilyTree.events.publish("add-item", [c, l]);
+              FamilyTree.events.publish("add-item", [p, l]);
               var s = l.html;
-              for (var d in c.filterBy[t]) {
-                var m = c.filterBy[t][d],
-                  h = m.text;
-                null == h && (h = d),
+              for (var d in p.filterBy[t]) {
+                var c = p.filterBy[t][d],
+                  m = c.text;
+                null == m && (m = d),
                   (l = {
                     name: t,
-                    text: h,
+                    text: m,
                     value: d,
-                    checked: m.checked,
+                    checked: c.checked,
                     html: `<div>\n                            <input  type="checkbox" id="${d}" name="${d}" ${
-                      m.checked ? "checked" : ""
-                    }>\n                            <label for="${d}">${h}</label>\n                        </div>`,
+                      c.checked ? "checked" : ""
+                    }>\n                            <label for="${d}">${m}</label>\n                        </div>`,
                   }),
-                  FamilyTree.events.publish("add-item", [c, l]),
+                  FamilyTree.events.publish("add-item", [p, l]),
                   (s += l.html);
               }
               o = document.createElement("div");
-              var p = FamilyTree.filterUI.textFilterBy;
-              (o.innerHTML = `<fieldset>\n                                                    <legend>${p} ${t}:</legend>\n                                                    ${s}\n                                                </fieldset>`),
+              var h = FamilyTree.filterUI.textFilterBy;
+              (o.innerHTML = `<fieldset>\n                                                    <legend>${h} ${t}:</legend>\n                                                    ${s}\n                                                </fieldset>`),
                 o.setAttribute("data-filter-menu", t),
                 o.classList.add("bft-filter-menu"),
                 e.target.parentNode.parentNode.appendChild(o);
@@ -13371,15 +13472,15 @@ var FamilyTree = function (e, t) {
                       )
                         if (r[a] != e.target)
                           for (var n in ((r[a].checked = e.target.checked),
-                          c.filterBy[i]))
-                            c.filterBy[i][n].checked = e.target.checked;
+                          p.filterBy[i]))
+                            p.filterBy[i][n].checked = e.target.checked;
                     } else if (
-                      (null != c.filterBy[i][this.name] &&
-                        (c.filterBy[i][this.name].checked = this.checked),
+                      (null != p.filterBy[i][this.name] &&
+                        (p.filterBy[i][this.name].checked = this.checked),
                       this.checked)
                     )
                       for (
-                        var o = c.instance.config.nodes, l = 0;
+                        var o = p.instance.config.nodes, l = 0;
                         l < o.length;
                         l++
                       )
@@ -13388,22 +13489,22 @@ var FamilyTree = function (e, t) {
                             if (FamilyTree.isNEU(s.stpid))
                               s = FamilyTree.isNEU(s.pid)
                                 ? null
-                                : c.instance._get(s.pid);
-                            else if ((s = c.instance._get(s.stpid))[i]) {
+                                : p.instance._get(s.pid);
+                            else if ((s = p.instance._get(s.stpid))[i]) {
                               var d =
                                 e.target.parentNode.parentNode.querySelector(
                                   '[name="' + s[i] + '"]'
                                 );
                               d
                                 ? ((d.checked = this.checked),
-                                  (c.filterBy[i][s[i]].checked = this.checked))
+                                  (p.filterBy[i][s[i]].checked = this.checked))
                                 : console.error(
                                     'Cannot find element with selector: [name="' +
                                       s[i] +
                                       '"]'
                                   );
                             }
-                    c.instance.draw();
+                    p.instance.draw();
                   }
                 });
             }
@@ -13413,7 +13514,7 @@ var FamilyTree = function (e, t) {
               (n.innerHTML = "x"),
               n.setAttribute("data-filter-close", ""),
               e.target.parentNode.appendChild(n),
-              FamilyTree.events.publish("show-items", [c, { name: t }]);
+              FamilyTree.events.publish("show-items", [p, { name: t }]);
           }
         }),
         this.instance.element.appendChild(this.element),
@@ -13488,11 +13589,11 @@ var FamilyTree = function (e, t) {
         (t[i][9] = r.partnerNodeSeparation);
     }
     return t;
-  }),
-  (FamilyTree.remote._convertToIdArray = function (e) {
-    for (var t = [], i = 0; i < e.length; i++) t.push(e[i].id);
-    return t;
-  }),
+  });
+(FamilyTree.remote._convertToIdArray = function (e) {
+  for (var t = [], i = 0; i < e.length; i++) t.push(e[i].id);
+  return t;
+}),
   (FamilyTree.remote._setPositions = function (e, t, i, r) {
     for (
       var a = [],
@@ -13539,37 +13640,18 @@ var FamilyTree = function (e, t) {
     }
   }),
   (FamilyTree.remote._findRegion = function (e) {
-    var t = FamilyTree.localStorage.getItem("funcUrl");
+    var t = FamilyTree.localStorage.getItem(FamilyTree.FUNC_URL_NAME);
     if (t) e(t);
     else {
       for (
         var i = [
-            "au-e",
-            "au-se",
-            "brs",
-            "ca",
-            "ca-e",
-            "easia",
-            "eus-2",
-            "eus",
-            "fr",
-            "ind",
-            "jp-e",
-            "jp-w",
-            "kr",
-            "n-eu",
-            "se-asia",
-            "s-ind",
-            "uk-s",
-            "uk-w",
-            "us",
-            "us-n-c",
-            "us-s-c",
-            "w-c-us",
-            "w-eu",
-            "w-ind",
-            "w-us-2",
-            "wus",
+            "defunc2",
+            "cusfunc2",
+            "bsfunc2",
+            "acfunc2",
+            "kcfunc2",
+            "safunc2",
+            "wifunc2",
           ],
           r = [],
           a = 0;
@@ -13579,14 +13661,12 @@ var FamilyTree = function (e, t) {
         r.push(new XMLHttpRequest());
       for (a = 0; a < i.length; a++)
         !(function () {
-          var t =
-              "https://" +
-              i[a] +
-              "-balkangraph.azurewebsites.net/api/OrgChartJS",
+          var t = "https://" + i[a] + FamilyTree.SERVER_PREFIX,
             n = r[a];
           (n.onreadystatechange = function () {
             if (4 == this.readyState && 200 == this.status) {
-              FamilyTree.localStorage.setItem("funcUrl", t), e(t);
+              FamilyTree.localStorage.setItem(FamilyTree.FUNC_URL_NAME, t),
+                e(t);
               for (var i = 0; i < r.length; i++) r[i].abort();
             }
           }),
