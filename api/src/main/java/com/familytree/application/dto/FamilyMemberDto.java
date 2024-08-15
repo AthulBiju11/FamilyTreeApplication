@@ -38,6 +38,12 @@ public class FamilyMemberDto {
 
     private String mobileNo;
 
+    private String whatsappNumber;
+
+    private String achievements;
+
+    private String profession;
+
 
 
 }

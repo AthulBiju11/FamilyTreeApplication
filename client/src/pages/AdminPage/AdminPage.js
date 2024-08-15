@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminPage.css";
 import newRequest from "../../utils/newRequest";
-import { Cloudinary } from "@cloudinary/url-gen";
+// import { Cloudinary } from "@cloudinary/url-gen";
 import Dropzone from "react-dropzone";
 import { produce } from "immer";
 import { toast } from "react-toastify";
@@ -23,29 +23,32 @@ const AdminPage = () => {
     anniversaryDate: null,
     address: null,
     mobileNo: null,
+    whatsappNumber: null,
+    achievements: null,
+    profession: null,
   });
 
   
 
-  const [editingMemberId, setEditingMemberId] = useState(null);
-  const [editingMember, setEditingMember] = useState({});
+  // const [setEditingMemberId] = useState(null);
+  // const [editingMember, setEditingMember] = useState({});
 
   const handleEditMember = (member) => {
     navigate("/update-family-member", { state: { member } });
   };
 
-  const handleSaveEdit = async () => {
-    try {
-      await newRequest.put(`/family/update/${editingMember.id}`, editingMember);
-      setEditingMemberId(null);
-      setEditingMember({});
-      // Fetch the updated family members list
-      const response = await newRequest.get("/family/all");
-      setFamilyMembers(response.data);
-    } catch (error) {
-      console.error("Error updating family member:", error);
-    }
-  };
+  // const handleSaveEdit = async () => {
+  //   try {
+  //     await newRequest.put(`/family/update/${editingMember.id}`, editingMember);
+  //     setEditingMemberId(null);
+  //     setEditingMember({});
+  //     // Fetch the updated family members list
+  //     const response = await newRequest.get("/family/all");
+  //     setFamilyMembers(response.data);
+  //   } catch (error) {
+  //     console.error("Error updating family member:", error);
+  //   }
+  // };
 
   const [familyMembers, setFamilyMembers] = useState([]);
   const navigate = useNavigate();
@@ -55,24 +58,25 @@ const AdminPage = () => {
     try {
       const response = await newRequest.get("/family/all");
       setFamilyMembers(response.data);
+      console.log(response);
     } catch (error) {
       console.error("Error fetching family members:", error);
     }
   };
-
+    
   useEffect(() => {
     
 
     fetchFamilyMembers();
   }, []);
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "dxi46aisk",
-      api_key: "849818193456615",
-      api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
-    },
-  });
+  // const cld = new Cloudinary({
+  //   cloud: {
+  //     cloudName: "dxi46aisk",
+  //     api_key: "849818193456615",
+  //     api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
+  //   },
+  // });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -162,6 +166,9 @@ const AdminPage = () => {
         anniversaryDate: null,
         address: null,
         mobileNo: null,
+        whatsappNumber: null,
+        achievements: null,
+        profession: null,
       });
 
       const fetchFamilyMembers = async () => {
@@ -190,12 +197,15 @@ const AdminPage = () => {
   };
 
   const handleShowTree = () => {
-    navigate("/");
+    navigate("/familytree");
   };
 
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+  const handleHome = () => {
+    navigate("/homepage");
   };
 
   const handleDeleteMember = async (memberId) => {
@@ -236,6 +246,7 @@ const AdminPage = () => {
       <div className="top-right-buttons">
         <button onClick={handleShowTree}>Show Tree</button>
         <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleHome}>Home</button>
       </div>
       <h1>Admin Page</h1>
       <form onSubmit={handleSubmit} className="admin-form">
@@ -366,6 +377,36 @@ const AdminPage = () => {
           />
         </div>
         <div className="form-group">
+    <label htmlFor="whatsappNumber">Whatsapp Number:</label>
+    <input
+      type="text"
+      id="whatsappNumber"
+      name="whatsappNumber"
+      value={formData.whatsappNumber || ""}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="form-group">
+    <label htmlFor="achievements">Achievements:</label>
+    <input
+      type="text"
+      id="achievements"
+      name="achievements"
+      value={formData.achievements || ""}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="form-group">
+    <label htmlFor="profession">Profession:</label>
+    <input
+      type="text"
+      id="profession"
+      name="profession"
+      value={formData.profession || ""}
+      onChange={handleChange}
+    />
+  </div>
+        <div className="form-group">
           <label htmlFor="img">Image:</label>
           <Dropzone onDrop={handleImageUpload}>
             {({ getRootProps, getInputProps }) => (
@@ -384,6 +425,7 @@ const AdminPage = () => {
       </form>
       <div>
         <h2>Family Members</h2>
+        <div className="table-wrapper">
         <table className="table">
           <thead>
             <tr>
@@ -400,6 +442,9 @@ const AdminPage = () => {
               <th>Anniversary Date</th>
               <th>Address</th>
               <th>Mobile Number</th>
+              <th>Whatsapp Number</th>
+              <th>Achievements</th>
+              <th>Profession</th>
               <th>Image</th>
               <th>Actions</th>
             </tr>
@@ -420,6 +465,9 @@ const AdminPage = () => {
                 <td>{member.anniversaryDate}</td>
                 <td>{member.address}</td>
                 <td>{member.mobileNo}</td>
+                <td>{member.whatsappNumber}</td>
+                <td>{member.achievements}</td>
+                <td>{member.profession}</td>
                 <td>
                   {member.img && (
                     <img src={member.img} alt="Member" width="50" height="50" />
@@ -435,6 +483,7 @@ const AdminPage = () => {
             ))}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

@@ -4,6 +4,9 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import UpdateFamilyMember from './pages/UpdatePage/UpdateFamilyMember';
+import HomePage from './pages/HomePage/homepage';
+import History from './pages/HistoryPage/Historypage';
+import MemberList from './pages/MemberList/memberlist';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -30,15 +33,27 @@ function App() {
       children: [
         {
           path: "/",
-          element: <LandingPage />,
+          element: <LoginPage />,
         },
         {
           path: "/admin",
           element: <ProtectedRoute element={<AdminPage />} />,
         },
         {
-          path: "/login",
-          element: <LoginPage />,
+          path: "/homepage",
+          element: <HomePage />,
+        },
+        {
+          path: "/familytree",
+          element: <LandingPage/>,
+        },
+        {
+          path: "/History",
+          element: <History/>,
+        },
+        {
+          path: "/MemberList",
+          element: <MemberList/>,
         },
         // Add a new route for UpdateFamilyMember
         {

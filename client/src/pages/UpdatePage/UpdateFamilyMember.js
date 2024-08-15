@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import newRequest from "../../utils/newRequest";
-import { Cloudinary } from "@cloudinary/url-gen";
+// import { Cloudinary } from "@cloudinary/url-gen";
 import Dropzone from "react-dropzone";
 import { produce } from "immer";
 import { toast } from "react-toastify";
@@ -25,17 +25,20 @@ const UpdateFamilyMember = () => {
     anniversaryDate: member.anniversaryDate,
     address: member.address,
     mobileNo: member.mobileNo,
+    whatsappNumber: member.whatsappNumber,
+    profession: member.profession,
+    achievements: member.achievements,
   });
 
   const navigate = useNavigate();
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "dxi46aisk",
-      api_key: "849818193456615",
-      api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
-    },
-  });
+  // const cld = new Cloudinary({
+  //   cloud: {
+  //     cloudName: "dxi46aisk",
+  //     api_key: "849818193456615",
+  //     api_secret: "_MhjYtTCISWb7KnDNlw-JwssSZc",
+  //   },
+  // });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -256,6 +259,36 @@ const UpdateFamilyMember = () => {
             id="mobileNo"
             name="mobileNo"
             value={formData.mobileNo || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="whatsappNumber">Whatsapp Number:</label>
+          <input
+            type="text"
+            id="whatsappNumber"
+            name="whatsappNumber"
+            value={formData.whatsappNumber || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="profession">Profession:</label>
+          <input
+            type="text"
+            id="profession"
+            name="profession"
+            value={formData.profession || ""}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="achievements">Achievements:</label>
+          <input
+            type="text"
+            id="achievements"
+            name="achievements"
+            value={formData.achievements || ""}
             onChange={handleChange}
           />
         </div>

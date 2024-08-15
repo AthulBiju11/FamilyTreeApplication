@@ -46,5 +46,11 @@ public class FamilyMember {
 
     private String mobileNo;
 
+    private String whatsappNumber;
+
+    private String achievements;
+
+    private String profession;
+
 
 }
