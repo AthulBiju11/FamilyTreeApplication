@@ -1,18 +1,33 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFamilyMembers } from "../../redux/slice/family";
+import { fetchFamilyMembers,fetchFamilyMembersByUNID } from "../../redux/slice/family";
 import FamilyTree from "../../mytree";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation  } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import queryString from 'query-string'; 
+import { data1 } from "../../data/CoreData";
+import { data2 } from "../../data/CoreData2";
+
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = queryString.parse(location.search);
   const { isAuthenticated, userRole } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchFamilyMembers());
-  }, [dispatch]);
+    if (id) {
+      // If id is present in query parameters, fetch family members by UNID
+      dispatch(fetchFamilyMembersByUNID(id));
+    } else {
+      // If no id, fetch all family members
+      dispatch(fetchFamilyMembers());
+    }
+  }, [dispatch, id]);
+
+
+
 
   const handleButtonClick = () => {
     if (isAuthenticated) {
@@ -28,6 +43,7 @@ const LandingPage = () => {
 
   const state = useSelector((state) => state.todo);
   const { data, isLoading, error } = state;
+  console.log("data",data);
 
   return (
     <div

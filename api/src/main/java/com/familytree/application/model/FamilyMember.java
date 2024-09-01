@@ -46,6 +46,8 @@ public class FamilyMember {
 
     private String mobileNo;
 
+    private Integer UNID;
+
     private String whatsappNumber;
 
     private String achievements;

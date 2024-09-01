@@ -98,4 +98,8 @@ public class FamilyService {
         repository.deleteById(id);
         return ResponseEntity.ok("The Family Member has been deleted");
     }
+
+    public ResponseEntity<List<FamilyMember>> getFamilyMembersByUNID(Integer id) {
+        return ResponseEntity.ok(repository.findByUNID(id));
+    }
 }

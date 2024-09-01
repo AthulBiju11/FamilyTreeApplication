@@ -4,6 +4,7 @@ package com.familytree.application.controller;
 import com.familytree.application.dto.FamilyMemberDto;
 import com.familytree.application.model.FamilyMember;
 import com.familytree.application.service.FamilyService;
+import org.apache.coyote.Response;
 import org.hibernate.type.descriptor.jdbc.JdbcTypeFamilyInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class FamilyController {
     @GetMapping("/family/all")
     public ResponseEntity<List<FamilyMember>> fetchAllFamilyMembers () {
         return service.retrieveAllFamilyMembers();
+    }
+
+    @GetMapping("/family/unid/{id}")
+    public ResponseEntity<List<FamilyMember>> fetchFamilyMembersByUNID (@PathVariable Integer id){
+        return service.getFamilyMembersByUNID(id);
     }
 
     @PostMapping("/family/add")
