@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 var FamilyTree = function (e, t) {
   var i = this;
   if (
