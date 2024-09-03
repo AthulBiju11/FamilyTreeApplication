@@ -5,8 +5,7 @@ import FamilyTree from "../../mytree";
 import { useNavigate,useLocation  } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import queryString from 'query-string'; 
-import { data1 } from "../../data/CoreData";
-import { data2 } from "../../data/CoreData2";
+
 
 
 const LandingPage = () => {
